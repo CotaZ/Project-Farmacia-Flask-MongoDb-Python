@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proveedores</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='img/paleta.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: white;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+        crossorigin="anonymous">
+</head>
+
+<body >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Farmacia Collico Logo" width="80" height="80"  style="border-radius: 20%"class="d-inline-block align-text-top"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Farmacia Collico</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/medicamentos">Medicamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/proveedores">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/listar_medicamentos">Inventario</a>
+                    </li>
+                </ul>
+            </div>
+            <form action="/buscar_medicamento" method="GET" class="mb-3">
+                <label for="nombre" class="form-label">Buscar medicamento por nombre:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del medicamento">
+                    <button type="submit" class="btn btn-primary">Buscar medicamento</button>
+                </div>
+            </form>
+        </div>
+    </nav>
+    
+
+    <div class="container" >
+        <h1 class="text-center mt-5 mb-5">Proveedores</h1>
+    </div>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+            <div class="col mb-3">
+                <div class="card">
+                    <div class="card-header"style="background-color: #3b5998; color: white;">
+                        <h5 class="text-center">Guardar en la Base de datos</h5>
+                    </div>
+                    <div class="card-body"style="background-color: #3b5998; color: white;">
+                        <form action="/proveedores" method="POST">
+                            <label>NOMBRE</label>
+                            <input type="text" class="form-control mb-3" name="nombre">
+                            <label>RAZON SOCIAL</label>
+                            <input type="text" class="form-control mb-3" name="razon_social">
+                            <label>RUT</label>
+                            <input type="text" class="form-control mb-3" name="rut">
+                            <label>DIRECCION</label>
+                            <input type="text" class="form-control mb-3" name="direccion">
+                            <label>EMAIL</label>
+                            <input type="text" class="form-control mb-3" name="email">
+                            <label>FONO</label>
+                            <input type="text" class="form-control mb-3" name="fono">
+                            <label>PRODUCTOS (Separados por comas)</label>
+                            <input type="text" class="form-control mb-3" name="productos">
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Proveedores</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for proveedor in proveedores %}
+                            <li class="list-group-item mb-3">
+                                <small>Nombre:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.nombre }}">
+                                <small>RUT:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.rut }}">
+                                <small>Razón Social:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.razon_social }}">
+                                <small>Dirección:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.direccion }}">
+                                <small>Email:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.email }}">
+                                <small>Teléfono:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.fono }}">
+                                <small>Productos:</small>
+                                <input type="text" class="form-control mb-2" value="{{ proveedor.productos|join(', ') }}">
+                                <!-- botones de editar y eliminar aquí... -->
+                                <div class="row mt-3">
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <a href="/editar_proveedor/{{ proveedor._id }}"  methods='GET','POST'] class="btn btn-primary">Ir a Actualizar</a>
+                                            <form action="/eliminar_proveedor/{{ proveedor._id }}" method="POST" class="ml-2">
+                                                <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+5n3/3eA6LGk5SCfZl/RuxEHD1m8ePv1wHfUgHQRwPabnp"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

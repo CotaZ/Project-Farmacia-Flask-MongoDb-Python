@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='img/paleta.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: white;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body style="background-color: #3b5998; color: white;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Farmacia Collico Logo" width="80" height="80" style="border-radius: 20%" class="d-inline-block align-text-top"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Farmacia Collico</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/medicamentos">Medicamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/proveedores">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/listar_medicamentos">Inventario</a>
+                    </li>
+                </ul>
+            </div>
+            <form action="/buscar_medicamento" method="GET" class="mb-3">
+                <label for="nombre" class="form-label">Buscar medicamento por nombre:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del medicamento">
+                    <button type="submit" class="btn btn-primary">Buscar medicamento</button>
+                </div>
+            </form>
+        </div>
+    </nav>
+    
+    
+    <div class="container">
+        <h1 class="text-center mt-5 mb-5">Farmacia Collico</h1>
+    </div>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+            <div class="col mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Guardar en la Base de datos</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/medicamentos" method="POST">
+                            <label>SKU</label>
+                            <input type="text" class="form-control mb-3" name="sku">
+                            <label>NOMBRE</label>
+                            <input type="text" class="form-control mb-3" name="nombre">
+                            <label>LABORATORIO</label>
+                            <input type="text" class="form-control mb-3" name="laboratorio">
+                            <label>PRINCIPIO_ACTIVO</label>
+                            <input type="text" class="form-control mb-3" name="principio_activo">
+                            <label>ACCION_TERAPEUTICA</label>
+                            <input type="text" class="form-control mb-3" name="accion_terapeutica">
+                            <label>PRESENTACION</label>
+                            <input type="text" class="form-control mb-3" name="presentacion">
+                            <label>DOSIS</label>
+                            <input type="text" class="form-control mb-3" name="dosis">
+                            <label>BIOEQUIVALENTE</label>
+                            <input type="text" class="form-control mb-3" name="bioequivalente">
+                            <label>STOCK</label>
+                            <input type="text" class="form-control mb-3" name="stock">
+                            <label>PRECIO</label>
+                            <input type="number" class="form-control mb-3" name="precio">
+                            <label>PROVEEDOR_NOMBRE</label>
+                            <input type="text" class="form-control mb-3" name="proveedor_nombre">
+                            <label>PROVEEDOR_RUT</label>
+                            <input type="text" class="form-control mb-3" name="proveedor_rut">
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-3" >
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Medicamentos</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/buscar_proveedor" method="get" class="mb-3">
+                            <label for="nombre" class="form-label">Buscar por proveedor:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del proveedor">
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                            </div>
+                        </form>
+                        <form action="/buscar_medicamento" method="GET" class="mb-3">
+                            <label for="nombre" class="form-label">Buscar medicamento por nombre:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del medicamento">
+                                <button type="submit" class="btn btn-primary">Buscar medicamento</button>
+                            </div>
+                        </form>
+                        <ul class="list-group">
+                            {% for medicamento in medicamentos %}
+                            <li class="list-group-item mb-3">
+                                
+                                <form action="/edit/{{ medicamento.nombre }}" method="POST">
+                                    <!-- Agregar campo oculto para identificar el medicamento -->
+                                    <input type="hidden" name="medicamento_name" value="{{ medicamento.nombre }}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small>SKU</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.sku }}" name="sku">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small>NOMBRE</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.nombre }}" name="nombre">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small>LABORATORIO</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.laboratorio }}" name="laboratorio">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small>PRINCIPIO_ACTIVO</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.principio_activo }}" name="principio_activo">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small>ACCION_TERAPEUTICA</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.accion_terapeutica }}" name="accion_terapeutica">
+                                        
+                                       
+                                </div>
+                                        <div class="col-md-6">
+                                            <small>PRESENTACION</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.presentacion }}" name="presentacion">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small>DOSIS</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.dosis }}" name="dosis">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small>BIOEQUIVALENTE</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.bioequivalente }}" name="bioequivalente">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small>STOCK</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.stock }}" name="stock">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small>PRECIO</small>
+                                            <input type="number" class="form-control" value="{{ medicamento.precio }}" name="precio">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small>PROVEEDOR_NOMBRE</small>
+                                            
+                                           
+                                <input type="text" class="form-control" value="{{ medicamento.proveedor[0].nombre }}" name="proveedor_nombre">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small>PROVEEDOR_RUT</small>
+                                            <input type="text" class="form-control" value="{{ medicamento.proveedor[1].rut }}" name="proveedor_rut">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+                                        <!-- Enlace para eliminar -->
+                                        <a href="{{ url_for('delete', medicamento_nombre=medicamento.nombre) }}" class="btn btn-danger btn-sm">Eliminar</a>
+
+                                    </div>
+                                </form>
+                                
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

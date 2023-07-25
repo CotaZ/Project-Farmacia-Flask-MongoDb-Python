@@ -1,0 +1,38 @@
+[
+  {
+    "nombre": "CENABAST",
+    "razon_social": "Central de Abastecimiento del Sistema Nacional de Servicios de Salud",
+    "rut": "61.608.700-2",
+    "direccion": "Av. Alameda 1384, Santiago, Chile",
+    "email": "contacto@cenabast.cl",
+    "fono": "+56 2 2693 7500",
+    "productos": ["analgesico", "betabloqueador", "antisicotico atipico"]
+  },
+  {
+    "nombre": "SOCOFAR",
+    "razon_social": "Sociedad Comercial Farmacéutica Ltda.",
+    "rut": "91.575.000-1",
+    "direccion": "Av. Vitacura 2670, Las Condes, Santiago, Chile",
+    "email": "contacto@socofar.cl",
+    "fono": "+56 2 2653 4100",
+    "productos": ["anticuerpo monoclonal", "ansiolitico", "antibiotico"]
+  },
+  {
+    "nombre": "INTERPHARMA",
+    "razon_social": "Interpharma S.A.",
+    "rut": "99.543.190-4",
+    "direccion": "Av. Irarrázaval 2233, Ñuñoa, Santiago, Chile",
+    "email": "contacto@interpharma.cl",
+    "fono": "+56 2 2374 9800",
+    "productos": ["antidepresivo","anticonvulsionante","antiinflamatorio"]
+  },
+  {
+    "nombre": "PROFARMA",
+    "razon_social": "Profarma Distribución Farmacéutica Ltda.",
+    "rut": "76.174.812-2",
+    "direccion": "Av. La Dehesa 2131, Lo Barnechea, Santiago, Chile",
+    "email": "contacto@profarma.cl",
+    "fono": "+56 2 2208 7000",
+    "productos": ["vasodilatador cerebral","broncodilatador","antiespasmodico"]
+  }
+]
